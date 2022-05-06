@@ -14,13 +14,12 @@ class addRecipeView extends View {
     this._addHandlerHideWindow();
   }
   toggleWindow() {
-    // const message = document.querySelector('.message');
-    // console.log(message);
-    // if (message) message.classList.toggle('hidden');
+    //Hide and show form
     this._overlay.classList.toggle('hidden');
     this._window.classList.toggle('hidden');
   }
   hideWindow() {
+    //Only hiding window (second funtion is coused by bug)
     this._overlay.classList.add('hidden');
     this._window.classList.add('hidden');
   }
@@ -35,15 +34,8 @@ class addRecipeView extends View {
     this._parentElement.addEventListener('submit', function (e) {
       e.preventDefault();
       console.log(this);
-      const labels = Array.from(this.querySelectorAll('.ingredients')).map(
-        ing =>
-          Array.from(ing.children).map(el => {
-            return el.value ? el.value : el.textContent;
-          })
-      );
-
+      // Copying data from form to final object
       const data = Object.fromEntries([...new FormData(this)]);
-      console.log(data);
       const exitData = {
         cookingTime: data.cookingTime,
         image: data.image,
@@ -53,23 +45,27 @@ class addRecipeView extends View {
         title: data.title,
         cookingTime: data.cookingTime,
       };
-      //juniorski kod ponizej
-      labels.map(arr => {
-        if (arr[0] === 'Ingredient 1')
-          exitData.ingredientOne = arr.slice(1).join(',');
-        if (arr[0] === 'Ingredient 2')
-          exitData.ingredientTwo = arr.slice(1).join(',');
-        if (arr[0] === 'Ingredient 3')
-          exitData.ingredientThree = arr.slice(1).join(',');
-        if (arr[0] === 'Ingredient 4')
-          exitData.ingredientFour = arr.slice(1).join(',');
-        if (arr[0] === 'Ingredient 5')
-          exitData.ingredientFive = arr.slice(1).join(',');
-        if (arr[0] === 'Ingredient 6')
-          exitData.ingredientSix = arr.slice(1).join(',');
-      });
-      console.log(exitData);
-      //console.log(exitData);
+      //Moving ingredients data to final object
+      Array.from(this.querySelectorAll('.ingredients'))
+        .map(ing =>
+          Array.from(ing.children).map(el => {
+            return el.value ? el.value : el.textContent;
+          })
+        )
+        .map(arr => {
+          if (arr[0] === 'Ingredient 1')
+            exitData.ingredientOne = arr.slice(1).join(',');
+          if (arr[0] === 'Ingredient 2')
+            exitData.ingredientTwo = arr.slice(1).join(',');
+          if (arr[0] === 'Ingredient 3')
+            exitData.ingredientThree = arr.slice(1).join(',');
+          if (arr[0] === 'Ingredient 4')
+            exitData.ingredientFour = arr.slice(1).join(',');
+          if (arr[0] === 'Ingredient 5')
+            exitData.ingredientFive = arr.slice(1).join(',');
+          if (arr[0] === 'Ingredient 6')
+            exitData.ingredientSix = arr.slice(1).join(',');
+        });
       handler(exitData);
     });
   }

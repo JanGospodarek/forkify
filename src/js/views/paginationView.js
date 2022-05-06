@@ -17,9 +17,8 @@ class PaginationView extends View {
     const numPages = Math.ceil(
       this._data.results.length / this._data.resultsPerPage
     );
-    // do refactoringu!
-    let markup = ` 
-    <button data-goto="${
+    //Markup for pagination buttons
+    let markup = ` <button data-goto="${
       currPage - 1
     }" class="btn--inline pagination__btn--prev ${
       currPage === 1 && numPages > 1 ? 'hidden' : ''

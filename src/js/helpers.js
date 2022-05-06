@@ -18,7 +18,6 @@ export const AJAX = async function (url, dataUpload = undefined) {
           body: JSON.stringify(dataUpload),
         })
       : fetch(url);
-    // console.log(fetch(url));
     const res = await Promise.race([promise, timeout(TIMEOUT)]);
     const data = await res.json();
     if (!res.ok) throw new Error(`${data.message}`);

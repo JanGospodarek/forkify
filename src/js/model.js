@@ -2,7 +2,6 @@ import { async } from 'regenerator-runtime';
 import { API_URL } from './config.js';
 import { AJAX } from './helpers.js';
 import { RES_PER_PAGE, KEY } from './config.js';
-
 export const state = {
   recipe: {},
   search: {
@@ -63,6 +62,7 @@ export const getSearchResultsPage = function (page = state.search.page) {
   const end = page * state.search.resultsPerPage;
   return state.search.results.slice(start, end);
 };
+//Updating servings
 export const updateServings = function (newServings) {
   state.recipe.ingredients.forEach(ing => {
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
@@ -86,18 +86,17 @@ export const deleteBookmark = function (id) {
 const init = function () {
   const storage = localStorage.getItem('bookmarks');
   if (storage) state.bookmarks = JSON.parse(storage);
-  // console.log(state.bookmarks);
 };
 init();
+//ONLY FOR DEVELOPMENT USE
 const clearBookmarks = function () {
   localStorage.clear('bookmarks');
 };
+//////////////////////////
 export const uploadRecipe = async function (newRecipe) {
   try {
     const ingredients = Object.entries(newRecipe)
-      .filter(
-        (entry, i) => entry[0].startsWith('ingredient') && entry[1] !== ''
-      )
+      .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
       .map(ing => {
         const ingArr = ing[1].split(',').map(el => el.trim());
         if (ingArr.length !== 3) throw new Error('Wrong ingredient format! ');
@@ -114,7 +113,6 @@ export const uploadRecipe = async function (newRecipe) {
       servings: newRecipe.servings,
       ingredients,
     };
-    console.log(recipe);
     const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
     state.recipe = createRecipeObject(data);
     addBookmark(state.recipe);

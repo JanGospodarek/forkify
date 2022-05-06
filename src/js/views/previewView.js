@@ -1,9 +1,9 @@
 import View from './View';
 import icons from 'url:../../img/icons.svg';
-
+//Preview markup
 class PreviewView extends View {
   _parentElement = '';
-  _generateMarkup(result) {
+  _generateMarkup() {
     const id = window.location.hash.slice(1);
     return ` 
     <li class="preview">
