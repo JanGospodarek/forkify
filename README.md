@@ -1,5 +1,6 @@
 # forkify
 Recipe application. Based on forkify app from JS course, but with some additional features. 
+
 Run for example with parcel 
 
  Steps:
